@@ -1,4 +1,4 @@
-const decorate = require( "./decorate" );
+const decorate = require( "../src/decorate" );
 
 function BaseOperation() { }
 
