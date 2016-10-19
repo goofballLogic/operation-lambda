@@ -1,0 +1,28 @@
+{
+  "name": "operation-lambda",
+  "version": "0.0.1",
+  "description": "Base operations for FaaS",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goofballLogic/operation-lambda.git"
+  },
+  "keywords": [
+    "FaaS"
+  ],
+  "author": "goofballLogic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/goofballLogic/operation-lambda/issues"
+  },
+  "homepage": "https://github.com/goofballLogic/operation-lambda#readme",
+  "devDependencies": {
+    "should": "^11.1.1"
+  },
+  "dependencies": {
+    "jsonld": "^0.4.11",
+    "ld-validate": "0.0.2"
+  }
+}
