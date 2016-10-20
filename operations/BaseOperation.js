@@ -34,12 +34,13 @@ BaseOperation.prototype.callProxy = function( name, args, invoke )  {
 */
 BaseOperation.prototype.execute = function( script ) {
 
+    const executeDebug = debug( "operation-lambda" );
     this.promise = this.promise || Promise.resolve();
     const interceptor = decorate( this, ( name, args, invoke ) => {
   
         const now = Date.now();
         this.callProxy( name, args, invoke );
-        debug( "operation-lambda" )( name + ": " + ( Date.now() - now ) );
+        executeDebug( name + ": " + ( Date.now() - now ) );
         return interceptor;
         
     } );
