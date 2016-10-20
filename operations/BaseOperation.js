@@ -30,7 +30,7 @@ BaseOperation.prototype.callProxy = function( name, args, invoke )  {
         } )
         .then( x => {
             
-            oldebug( name + ": " + Date.now() - timestamp )
+            oldebug( name + ": " + ( Date.now() - timestamp ) )
             return x;
             
         } );
