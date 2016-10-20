@@ -11,7 +11,7 @@ function BaseOperation() { }
 BaseOperation.prototype.callProxy = function( name, args, invoke )  {
     
     const oldebug = debug( "operation-lambda" );
-    let timestamp;
+    var timestamp;
     this.promise = this.promise
         .then( () => timestamp = Date.now() )
         .then( () => {
