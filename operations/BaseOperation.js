@@ -10,20 +10,25 @@ function BaseOperation() { }
 */
 BaseOperation.prototype.callProxy = function( name, args, invoke )  {
     
-    this.promise = this.promise.then( () => {
+    const oldebug = debug( "operation-lambda" );
+    let timestamp;
+    this.promise = this.promise
+        .then( () => timestamp = Date.now() )
+        .then( () => {
 
-        const invoked = invoke();
-        if ( Array.isArray( invoked ) ) {
-            
-            return Promise.all( invoked );
-            
-        } else {
-            
-            return invoked;
-            
-        }
-
-    } );
+            const invoked = invoke();
+            if ( Array.isArray( invoked ) ) {
+                
+                return Promise.all( invoked );
+                
+            } else {
+                
+                return invoked;
+                
+            }
+    
+        } )
+        .then( () => oldebug( name + ": " + Date.now() - timestamp ) );
     
 };
 
@@ -34,13 +39,10 @@ BaseOperation.prototype.callProxy = function( name, args, invoke )  {
 */
 BaseOperation.prototype.execute = function( script ) {
 
-    const executeDebug = debug( "operation-lambda" );
     this.promise = this.promise || Promise.resolve();
     const interceptor = decorate( this, ( name, args, invoke ) => {
   
-        const now = Date.now();
         this.callProxy( name, args, invoke );
-        this.promise( () => executeDebug( name + ": " + ( Date.now() - now ) ) );
         return interceptor;
         
     } );
