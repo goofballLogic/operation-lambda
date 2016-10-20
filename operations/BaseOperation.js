@@ -40,7 +40,7 @@ BaseOperation.prototype.execute = function( script ) {
   
         const now = Date.now();
         this.callProxy( name, args, invoke );
-        executeDebug( name + ": " + ( Date.now() - now ) );
+        this.promise( () => executeDebug( name + ": " + ( Date.now() - now ) ) );
         return interceptor;
         
     } );
