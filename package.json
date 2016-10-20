@@ -1,6 +1,6 @@
 {
   "name": "operation-lambda",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Base operations for FaaS",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
