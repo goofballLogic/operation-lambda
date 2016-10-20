@@ -1,11 +1,8 @@
-    
-
-    
 module.exports = opts => {
     
     // ensure configuration is loaded in
     const config = opts.config;
-    if ( !config ) { throw new Error( "Missing confing" ); }
+    if ( !config ) { throw new Error( "Missing config" ); }
     
     // optionally allow promise of configuration    
     const configPromise = opts.configPromise;
