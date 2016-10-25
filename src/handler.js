@@ -23,9 +23,10 @@ module.exports = opts => {
     return function handler( event, context, callback ) {
 
         const op = new Op( { ports, event, context, config } );
-        const callbackWrapper = ( e, payload ) => config.teardown( () => callback( e, payload ) );
+        const callbackWrapper = config.teardown
+            ? ( e, payload ) => config.teardown( () => callback( e, payload ) )
+            : callback;
         const completion = payload => ports.send( payload, callbackWrapper );
-        
         ensureConfiguration
             .then( () => op.execute( script )  )
             .then( completion, completion );
