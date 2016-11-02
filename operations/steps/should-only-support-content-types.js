@@ -1,6 +1,6 @@
 module.exports = function shouldOnlySupportContentTypes( allowedContentTypes ) {
         
-    const actualContentType = this.event.headers[ "Content-Type" ];
+    const actualContentType = this.header( "Content-Type" );
     if ( !~allowedContentTypes.indexOf( actualContentType ) ) {
         
         console.warn( "Unsupported content type: " + actualContentType );

@@ -24,6 +24,17 @@ LambdaOperation.prototype = Object.assign( new BaseOperation(), {
         }
         return { statusCode, body, headers: contentTypeOrHeaders };
         
+    },
+    
+    header: function( headerName ) {
+        
+        headerName = headerName.toLowerCase();
+        for( var k in this.event.headers ) {
+            
+            if ( k.toLowerCase() === headerName ) { return this.evt.headers[ k ]; }
+            
+        }
+        
     }
 
 } );
