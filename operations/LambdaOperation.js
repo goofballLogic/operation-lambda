@@ -29,9 +29,10 @@ LambdaOperation.prototype = Object.assign( new BaseOperation(), {
     header: function( headerName ) {
         
         headerName = headerName.toLowerCase();
-        for( var k in this.event.headers ) {
+        const evt = this.event;
+        for( var k in evt.headers ) {
             
-            if ( k.toLowerCase() === headerName ) { return this.evt.headers[ k ]; }
+            if ( k.toLowerCase() === headerName ) { return evt.headers[ k ]; }
             
         }
         
