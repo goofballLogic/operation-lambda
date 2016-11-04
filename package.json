@@ -23,6 +23,6 @@
   },
   "dependencies": {
     "jsonld": "^0.4.11",
-    "ld-validate": "0.0.2"
+    "ld-validate": "0.1.0"
   }
 }
