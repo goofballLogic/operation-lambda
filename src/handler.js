@@ -1,12 +1,11 @@
 module.exports = opts => {
     
     // ensure configuration is loaded in
-    const config = opts.config;
-    if ( !config ) { throw new Error( "Missing config" ); }
-    
-    // optionally allow promise of configuration    
-    const configPromise = opts.configPromise;
-    const ensureConfiguration = configPromise || Promise.resolve();
+    const maybeConfigPromise = opts.config;
+    if ( !maybeConfigPromise ) { throw new Error( "Missing config" ); }
+    const configPromise = maybeConfigPromise instanceof Promise 
+        ? maybeConfigPromise 
+        : Promise.resolve( maybeConfigPromise );
 
     // script to execute
     const script = opts.script;
@@ -19,18 +18,28 @@ module.exports = opts => {
     // ports to external resources (e.g. db)
     const ports = opts.ports;
     if ( !ports ) { throw new Error( "Missing ports" ); }
+
+    // the completion to send the result
+    const buildCompletion = ( config, callback ) => {
+
+        const justInvoke = f => f();
+        const maybeTeardown = config.teardown || justInvoke;
+        const maybeTeardownThenCallback = ( e, x ) => maybeTeardown( () => callback( e, x ) );
+        return payload => ports.send( payload, maybeTeardownThenCallback );
+        
+    };
     
     return function handler( event, context, callback ) {
-
-        const op = new Op( { ports, event, context, config } );
-        const callbackWrapper = config.teardown
-            ? ( e, payload ) => config.teardown( () => callback( e, payload ) )
-            : callback;
-        const completion = payload => ports.send( payload, callbackWrapper );
-        ensureConfiguration
-            .then( () => op.execute( script )  )
-            .then( completion, completion );
+        
+        configPromise.then( config => {
             
+            const completion = buildCompletion( config, callback );
+            new Op( { ports, event, context, config } )
+                .execute( script )
+                .then( completion, completion );
+                
+        }, callback );
+
     };
 
 };
